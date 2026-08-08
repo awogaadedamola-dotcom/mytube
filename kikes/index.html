@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kikes - Video Platform</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;color:#111}
+button,input{font:inherit}
+.header{height:64px;background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;gap:22px;padding:0 22px;position:sticky;top:0;z-index:50}
+.logo{font-size:25px;font-weight:800;color:#111;white-space:nowrap}
+.logo b{color:#1685d8}
+.search{display:flex;flex:1;max-width:650px;margin:auto}
+.search input{width:100%;height:42px;border:1px solid #ccc;border-right:0;border-radius:22px 0 0 22px;padding:0 18px;outline:none}
+.search input:focus{border-color:#888}
+.search button{width:58px;height:42px;border:1px solid #ccc;border-radius:0 22px 22px 0;background:#eee;cursor:pointer}
+.avatar{width:40px;height:40px;border-radius:50%;background:#f00;color:#fff;display:grid;place-items:center;font-weight:bold}
+.layout{display:flex;min-height:calc(100vh - 64px)}
+.sidebar{width:225px;background:#fff;border-right:1px solid #ddd;padding:14px 10px;flex-shrink:0}
+.navbtn{width:100%;border:0;background:transparent;text-align:left;padding:14px 15px;border-radius:9px;cursor:pointer;margin-bottom:4px}
+.navbtn:hover,.navbtn.active{background:#eee;font-weight:bold}
+.main{flex:1;padding:24px;max-width:1500px;margin:auto}
+.hero{background:linear-gradient(120deg,#111,#444);color:#fff;border-radius:16px;padding:30px;margin-bottom:24px}
+.hero h1{font-size:30px;margin-bottom:8px}.hero p{color:#ddd}
+.pageTitle{font-size:27px;margin-bottom:18px}
+.categories{display:flex;gap:10px;overflow-x:auto;margin-bottom:22px}
+.chip{border:0;background:#e7e7e7;padding:9px 17px;border-radius:20px;cursor:pointer;white-space:nowrap}
+.chip:hover{background:#ddd}.chip.active{background:#111;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px #0001}
+.thumb{height:175px;background:#111;position:relative;overflow:hidden}
+.thumb video{width:100%;height:100%;object-fit:cover;display:block}
+.placeholder{height:100%;display:grid;place-items:center;font-size:65px;background:linear-gradient(135deg,#222,#555);color:#fff}
+.info{padding:15px}.title{font-size:17px;font-weight:700;margin-bottom:7px}.meta{font-size:13px;color:#666;line-height:1.5}
+.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.action{border:0;background:#eee;padding:8px 12px;border-radius:7px;cursor:pointer}
+.action:hover{background:#ddd}.likeButton.liked{background:#111;color:#fff}
+.subscribeButton{background:#f00;color:#fff}.subscribeButton:hover{background:#d90000}
+.subscribeButton.subscribed{background:#333}
+.clearBtn{border:1px solid #ccc;background:#fff;padding:8px 12px;border-radius:7px;cursor:pointer;margin-bottom:18px}
+.empty{text-align:center;padding:70px 20px;color:#777;display:none}
+.empty h2{color:#333;margin-bottom:8px}
+@media(max-width:800px){
+.sidebar{display:none}.header{padding:0 12px;gap:10px}.logo{font-size:20px}.avatar{width:35px;height:35px}
+.main{padding:15px}.grid{grid-template-columns:1fr}.hero{padding:22px}.hero h1{font-size:25px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">▶ <b>k</b>ikes</div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Search videos...">
+    <button id="searchBtn" aria-label="Search">🔍</button>
+  </div>
+  <div class="avatar">K</div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <button class="navbtn active" data-section="home">🏠 Home</button>
+  <button class="navbtn" data-section="trending">🔥 Trending</button>
+  <button class="navbtn" data-section="subscriptions">🎬 Subscriptions</button>
+  <button class="navbtn" data-section="library">📚 Library</button>
+  <button class="navbtn" data-section="history">🕘 History</button>
+</aside>
+
+<main class="main">
+<section class="hero" id="hero">
+  <h1>Welcome to  kikes</h1>
+  <p>Discover videos, music, sports and entertainment in one place.</p>
+</section>
+
+<h2 class="pageTitle" id="pageTitle">Home</h2>
+
+<div class="categories" id="categories">
+  <button class="chip active" data-category="all">All</button>
+  <button class="chip" data-category="music">Music</button>
+  <button class="chip" data-category="sports">Sports</button>
+  <button class="chip" data-category="entertainment">Entertainment</button>
+  <button class="chip" data-category="news">News</button>
+</div>
+
+<div id="tools"></div>
+
+<section class="grid" id="videoGrid">
+
+<article class="card" data-id="football" data-category="sports" data-title="Football Highlights" data-channel="sports" data-views="125000">
+  <div class="thumb">
+    <video controls preload="metadata" class="videoPlayer">
+      <source src="videos/football.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+  </div>
+  <div class="info">
+    <div class="title">Football Highlights</div>
+    <div class="meta">kikes Sports<br>125K views • 2 days ago</div>
+    <div class="actions">
+      <button class="action likeButton">👍 Like</button>
+      <button class="action subscribeButton">Subscribe</button>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="music" data-category="music" data-title="Afrobeat Music Mix" data-channel="music" data-views="86000">
+  <div class="thumb"><div class="placeholder">🎵</div></div>
+  <div class="info">
+    <div class="title">Afrobeat Music Mix</div>
+    <div class="meta">kikes Music<br>86K views • 5 days ago</div>
+    <div class="actions">
+      <button class="action likeButton">👍 Like</button>
+      <button class="action subscribeButton">Subscribe</button>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="stories" data-category="entertainment" data-title="African Stories" data-channel="originals" data-views="42000">
+  <div class="thumb"><div class="placeholder">🎭</div></div>
+  <div class="info">
+    <div class="title">African Stories</div>
+    <div class="meta">kikes Originals<br>42K views • 1 week ago</div>
+    <div class="actions">
+      <button class="action likeButton">👍 Like</button>
+      <button class="action subscribeButton">Subscribe</button>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="news" data-category="news" data-title="Daily News Update" data-channel="news" data-views="19000">
+  <div class="thumb"><div class="placeholder">📰</div></div>
+  <div class="info">
+    <div class="title">Daily News Update</div>
+    <div class="meta">kikes News<br>19K views • 3 hours ago</div>
+    <div class="actions">
+      <button class="action likeButton">👍 Like</button>
+      <button class="action subscribeButton">Subscribe</button>
+    </div>
+  </div>
+</article>
+
+</section>
+
+<div class="empty" id="empty">
+  <h2>Nothing here yet</h2>
+  <p id="emptyText">Videos will appear here.</p>
+</div>
+</main>
+</div>
+
+<script>
+const KEYS={likes:"kikes_likes",subscriptions:"kikes_subscriptions",history:"kikes_history"};
+let likes=load(KEYS.likes),subscriptions=load(KEYS.subscriptions),history=load(KEYS.history);
+
+function load(key){try{return JSON.parse(localStorage.getItem(key))||[]}catch(e){return[]}}
+function save(key,value){localStorage.setItem(key,JSON.stringify(value))}
+function cards(){return Array.from(document.querySelectorAll(".card"))}
+function getCard(id){return document.querySelector('.card[data-id="'+id+'"]')}
+
+function toggleLike(id){
+  const card=getCard(id); if(!card)return;
+  const button=card.querySelector(".likeButton");
+  const i=likes.indexOf(id);
+  if(i===-1){likes.push(id);button.classList.add("liked");button.textContent="👎 Unlike"}
+  else{likes.splice(i,1);button.classList.remove("liked");button.textContent="👍 Like"}
+  save(KEYS.likes,likes);
+}
+
+function toggleSubscribe(channel){
+  const i=subscriptions.indexOf(channel);
+  document.querySelectorAll(".card").forEach(card=>{
+    if(card.dataset.channel===channel){
+      const b=card.querySelector(".subscribeButton");
+      if(i===-1){b.classList.add("subscribed");b.textContent="✓ Subscribed"}
+      else{b.classList.remove("subscribed");b.textContent="Subscribe"}
+    }
+  });
+  if(i===-1)subscriptions.push(channel);else subscriptions.splice(i,1);
+  save(KEYS.subscriptions,subscriptions);
+}
+
+function addHistory(id){
+  history=history.filter(x=>x!==id);
+  history.unshift(id);
+  history=history.slice(0,50);
+  save(KEYS.history,history);
+}
+
+document.querySelectorAll(".videoPlayer").forEach(video=>{
+  video.addEventListener("play",()=>addHistory(video.closest(".card").dataset.id));
+});
+
+document.querySelectorAll(".likeButton").forEach(b=>{
+  b.addEventListener("click",()=>toggleLike(b.closest(".card").dataset.id));
+});
+document.querySelectorAll(".subscribeButton").forEach(b=>{
+  b.addEventListener("click",()=>toggleSubscribe(b.closest(".card").dataset.channel));
+});
+
+function restoreStates(){
+  cards().forEach(card=>{
+    const like=card.querySelector(".likeButton"),sub=card.querySelector(".subscribeButton");
+    if(likes.includes(card.dataset.id)){like.classList.add("liked");like.textContent="👎 Unlike"}
+    if(subscriptions.includes(card.dataset.channel)){sub.classList.add("subscribed");sub.textContent="✓ Subscribed"}
+  });
+}
+
+function checkEmpty(){
+  const visible=cards().filter(c=>c.style.display!=="none");
+  empty.style.display=visible.length?"none":"block";
+}
+
+function showSection(section){
+  document.querySelectorAll(".navbtn").forEach(b=>b.classList.remove("active"));
+  const active=document.querySelector('.navbtn[data-section="'+section+'"]');
+  if(active)active.classList.add("active");
+
+  hero.style.display=section==="home"?"block":"none";
+  categories.style.display=section==="home"?"flex":"none";
+  document.getElementById("tools").innerHTML="";
+  searchInput.value="";
+
+  let list=[];
+  if(section==="home"){title.textContent="Home";list=cards()}
+  if(section==="trending"){title.textContent="🔥 Trending";list=cards().sort((a,b)=>Number(b.dataset.views)-Number(a.dataset.views))}
+  if(section==="subscriptions"){title.textContent="🎬 Subscriptions";list=cards().filter(c=>subscriptions.includes(c.dataset.channel))}
+  if(section==="library"){title.textContent="📚 Your Library";list=cards().filter(c=>likes.includes(c.dataset.id))}
+  if(section==="history"){
+    title.textContent="🕘 Watch History";
+    list=history.map(id=>getCard(id)).filter(Boolean);
+    if(list.length){
+      const clear=document.createElement("button");
+      clear.className="clearBtn";clear.textContent="Clear History";
+      clear.onclick=()=>{history=[];save(KEYS.history,history);showSection("history")};
+      document.getElementById("tools").appendChild(clear);
+    }
+  }
+
+  cards().forEach(c=>c.style.display="none");
+  list.forEach(c=>{c.style.display="";grid.appendChild(c)});
+
+  if(list.length)empty.style.display="none";
+  else{
+    empty.style.display="block";
+    emptyText.textContent=
+      section==="subscriptions"?"Subscribe to a channel and its videos will appear here.":
+      section==="library"?"Like a video and it will appear in your Library.":
+      section==="history"?"Play a video and it will appear in your History.":"No videos found.";
+  }
+}
+
+document.querySelectorAll(".navbtn").forEach(b=>b.addEventListener("click",()=>showSection(b.dataset.section)));
+
+document.querySelectorAll(".chip").forEach(chip=>{
+  chip.addEventListener("click",()=>{
+    document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+    chip.classList.add("active");
+    const cat=chip.dataset.category;
+    cards().forEach(card=>card.style.display=cat==="all"||card.dataset.category===cat?"":"none");
+    checkEmpty();
+  });
+});
+
+function searchVideos(){
+  const q=searchInput.value.toLowerCase().trim();
+  hero.style.display="none";categories.style.display="none";title.textContent=q?"Search results":"Home";
+  cards().forEach(card=>card.style.display=card.dataset.title.toLowerCase().includes(q)?"":"none");
+  checkEmpty();
+}
+searchInput.addEventListener("input",searchVideos);
+document.getElementById("searchBtn").addEventListener("click",searchVideos);
+
+restoreStates();
+showSection("home");
+</script>
+</body>
+</html>
